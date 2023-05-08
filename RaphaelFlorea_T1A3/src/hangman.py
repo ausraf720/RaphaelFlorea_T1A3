@@ -1,3 +1,5 @@
+#/****************************************************************/
+
 from copy import deepcopy
 
 #Make the hangman class, 
@@ -68,6 +70,7 @@ stages.append(stage1)
 #Finally create initial blank stage
 stage0 = stage1.stage_adder(stages, 5, '        ')
 
-#Test all stages are printing out correctly
-for i in stages:
-    i.printer()
+#Reverse stages to make into correct order
+stages.reverse()
+
+#/****************************************************************/
