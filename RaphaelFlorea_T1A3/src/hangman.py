@@ -70,7 +70,5 @@ stages.append(stage1)
 #Finally create initial blank stage
 stage0 = stage1.stage_adder(stages, 5, '        ')
 
-#Reverse stages to make into correct order
-stages.reverse()
 
 #/****************************************************************/
