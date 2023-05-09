@@ -16,8 +16,6 @@ from wordlist_builder import grand_list
 #to be changed depending on word length desired
 word_len = 5
 
-
-guesses_left = 10
 current_word_list = grand_list[word_len - 1]
 word_count = len(current_word_list)
 
@@ -34,17 +32,16 @@ guess_word = list(guess_word.upper())
 print(guess_word)
 
 upper_letters = string.ascii_uppercase
-guesses = []
-incorrect_guesses = []
+
 
 #/****************************************************************/
 
-#get a letter guess
+#Validate the letter to be guessed based on input
 def letter_validator(guesses_left, guesses):
     
     letter_guess = input("Guess a letter: ")
     letter_guess = letter_guess.upper()
-    while (letter_guess not in upper_letters) and (letter_guess not in guesses):
+    while (letter_guess not in upper_letters) or (letter_guess in guesses):
 
         #check if guess is valid letter
         if letter_guess in guesses:
@@ -63,42 +60,60 @@ def letter_validator(guesses_left, guesses):
 
 #/****************************************************************/
 
-while guesses_left > 0:
+#Main hangman gameplay loop
+def hangman_loop(guess_word, word_shown, stages):
 
-    #First, check letter is valid, and obtain letter
-    letter = letter_validator(guesses_left, guesses)
+    #Initialise list and variables needed for function
+    guesses = []
+    incorrect_guesses = []
+    guesses_left = 10
 
-    #Check if letter in word
-    if letter in guess_word:
-        print("That is a correct letter!")
+    while guesses_left > 0:
 
-        #If letter is correct, add the letter to 'word_shown'
-        #Thus, displayed word will be updated with guess
-        for itr in range(word_len):
-            if letter == guess_word[itr]:
-                word_shown[itr] = letter
-    
-    #If guess wrong, guesses left reduces by one
-    else:
-        print("That is not correct!")
-        guesses_left -= 1
-        incorrect_guesses.append(letter)
+        #First, check letter is valid, and obtain letter
+        letter = letter_validator(guesses_left, guesses)
 
-    guesses.append(letter)
+        #Check if letter in word
+        if letter in guess_word:
+            print("That is a correct letter!")
 
-    #print word shown as string, not list
-    str = ""
-    word_joined = str.join(word_shown) 
-    print(word_joined)
+            #If letter is correct, add the letter to 'word_shown'
+            #Thus, displayed word will be updated with guess
+            for itr in range(word_len):
+                if letter == guess_word[itr]:
+                    word_shown[itr] = letter
+        
+        #If guess wrong, guesses left reduces by one
+        else:
+            print("That is not correct!")
+            guesses_left -= 1
+            incorrect_guesses.append(letter)
 
-    #print actual hangman and other relevant info
-    stages[guesses_left].printer()
-    print(f"Incorrect guesses: {incorrect_guesses}")
-    print(f"Guesses remaining: {guesses_left}")
-    print("Press ... to quit.\n")
-    
+        guesses.append(letter)
+
+        #print word shown as string, not list
+        str = ""
+        word_joined = str.join(word_shown) 
+        print(word_joined)
+
+        #print actual hangman and other relevant info
+        stages[guesses_left].printer()
+        print(f"Incorrect guesses: {incorrect_guesses}")
+        print(f"Guesses remaining: {guesses_left}")
+        print("Press ... to quit.\n")
+
+        #finally check if whole word is guessed correctly
+        if word_shown == guess_word:
+            break
+    return guesses_left
+
 #/****************************************************************/
-    
+
+guesses_left = hangman_loop(guess_word, word_shown, stages)   
+if guesses_left == 0:
+    print("GAME OVER!")
+else:
+    print("Well done, guessed word correctly!")
 
 
 

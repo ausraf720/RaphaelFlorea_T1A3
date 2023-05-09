@@ -70,5 +70,4 @@ stages.append(stage1)
 #Finally create initial blank stage
 stage0 = stage1.stage_adder(stages, 5, '        ')
 
-
 #/****************************************************************/
