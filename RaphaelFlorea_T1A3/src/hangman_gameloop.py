@@ -95,11 +95,11 @@ def hangman_loop(guess_word, stages, word_len):
         #print word shown as string, not list
         str = ""
         word_joined = str.join(word_shown) 
-        print(word_joined)
+        print(f"\n{word_joined}")
 
         #print actual hangman and other relevant info
         stages[guesses_left].printer()
-        print(f"Incorrect guesses: {incorrect_guesses}")
+        print(f"\nIncorrect guesses: {incorrect_guesses}")
         print(f"Guesses remaining: {guesses_left}")
         print("Press ... to quit.\n")
 

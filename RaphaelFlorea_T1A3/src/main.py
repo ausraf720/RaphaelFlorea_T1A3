@@ -35,7 +35,9 @@ def gameloop(word_len):
 
 #/****************************************************************/
 
-score = 0.0
+score = 0
+
+streak = 0
 
 #generate list of all lengths to be used
 #Start at length 4, as going smaller has lots of acronyms
@@ -43,8 +45,9 @@ score = 0.0
 all_word_lens = list(range(4,14))
 
 for word_len in all_word_lens:
-    print("\n--------------------")
-    print(f"ROUND {word_len-3}")
+    print("\n****************************************")
+    round_ = word_len-3
+    print(f"\nROUND {round_}\n")
     duration, guesses_left = gameloop(word_len)
 
     #Determine round didn't fail, if so, add to score
@@ -52,16 +55,26 @@ for word_len in all_word_lens:
 
         #Do score based on inverse of time taken,
         #Thus faster has more score
-        round_score = (100 / duration) 
+        round_score = round(100 / duration) 
 
         #Times by word length, so that longer words score better
         round_score *= word_len
+
+        #Players get rewarded with 'streak' system,
+        #where more succesful games in a row also increases score
+        streak += 1
+        round_score *= streak
         score += round_score
 
     #Score should be nothing for failed round
     else:
         round_score = 0
-    print(f"Score for Round: {round(round_score, 0)}")
-    print(f"Total Score: {round(score, 0)}")
+        streak = 0
+    print("-----------------------------------")
+    print(f"Score for Round: {round_score}")
+    print(f"Streak: {streak}")
+    
+    print(f"TOTAL SCORE FOR ROUND {round_}: {score}")
+    print("-----------------------------------")
 
 #/****************************************************************/
