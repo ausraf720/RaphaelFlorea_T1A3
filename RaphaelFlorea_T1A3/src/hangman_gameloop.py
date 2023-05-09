@@ -6,8 +6,7 @@
 import random
 import string
 
-from hangman_classes import stages, hangman_stage
-from wordlist_builder import grand_list
+from hangman_classes import hangman_stage
 
 #/****************************************************************/
 
@@ -58,7 +57,7 @@ def letter_validator(guesses_left, guesses):
 #/****************************************************************/
 
 #Main hangman gameplay loop
-def hangman_loop(guess_word, stages):
+def hangman_loop(guess_word, stages, word_len):
 
     #Initialise list and variables needed for function
     guesses = []
@@ -112,13 +111,7 @@ def hangman_loop(guess_word, stages):
 
 #/****************************************************************/
 
-word_len = 5
-guess_word = word_generator(word_len, grand_list)
-guesses_left = hangman_loop(guess_word, stages)
-if guesses_left == 0:
-    print("GAME OVER!")
-else:
-    print("Guessed word correctly!")
+
 
 
 
