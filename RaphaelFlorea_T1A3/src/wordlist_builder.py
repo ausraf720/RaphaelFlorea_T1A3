@@ -2,7 +2,6 @@
 #/****************************************************************/
 
 #Read file and put into list
-
 f = open("wordlist.txt", "r")
 words = f.read()
 word_list = words.split("\n")
@@ -20,7 +19,7 @@ for i in word_list:
     if len(i) > max_word_len:
         max_word_len = len(i)
 
-#grand list is a 2d list, 
+#Grand list is a 2d list, 
 #each list contains words only of a certain length
 grand_list = []
 for i in range(max_word_len):
