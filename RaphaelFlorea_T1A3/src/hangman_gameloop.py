@@ -27,12 +27,25 @@ def word_generator(word_len, grand_list):
     
 #/****************************************************************/
 
+#Function used to control all inputs
+def inputter(text):
+    print("Press '3' to quit.")
+    input_val = input(text)
+
+    #Uses '3' to exit program at anytime
+    if input_val == '3':
+        raise KeyboardInterrupt
+    else:
+        return input_val
+
+#/****************************************************************/
+
 #Validate the letter to be guessed based on input
 def letter_validator(guesses_left, guesses):
     
     #First, get input
-    letter_guess = input("Guess a letter: ")
-
+    inputter("Guess a letter")
+    
     #Generate list of all uppercase letters in alphabet
     upper_letters = string.ascii_uppercase
     letter_guess = letter_guess.upper()
@@ -46,10 +59,9 @@ def letter_validator(guesses_left, guesses):
             print("That's not a valid guess.")
 
         print(f"Guesses remaining: {guesses_left}")
-        print("Press ... to quit.\n")
 
         #Keep prompting for guess until quit or valid guess given
-        letter_guess = input("Guess a letter: ")
+        letter_guess = inputter("Guess a letter: ")
         letter_guess = letter_guess.upper()
 
     return letter_guess

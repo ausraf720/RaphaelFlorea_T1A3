@@ -1,13 +1,6 @@
 #/****************************************************************/
 
-"""import subprocess
-
-# use pip to install the package
-subprocess.check_call(["pip", "install", 'numpy'])"""
-
-#/****************************************************************/
-
-from hangman_gameloop import word_generator, hangman_loop
+from hangman_gameloop import word_generator, hangman_loop, inputter
 from wordlist_builder import grand_list
 from hangman_classes import stages
 
@@ -81,24 +74,31 @@ def info_printer(round_score, streak, round_, score, player_number):
 
 def main_game(player_number):
 
+    #Initialise scoring, for both 1 and 2 players
     score = [0,0]
     round_score = [0,0]
     streak = [0,0]
 
-    #generate list of all lengths to be used
-    #Start at length 4, as going smaller has lots of acronyms
-    #End at 14, as English words longer than this aren't common
+    """Generate list of all lengths to be used:
+        - Start at length 4, as going smaller has lots of acronyms
+        - End at 14, as English words longer than this aren't common
+    """
     all_word_lens = list(range(4,14))
 
+    #Do 10 rounds, each round the word gets longer by 1 letter
     for word_len in all_word_lens:
         for player in range(player_number):
             print("\n****************************************")
+            
+            #Print out information about round
             round_ = word_len-3
             if player_number == 1:
                 print(f"\nROUND {round_}\n")
             else:
                 print(f"\nROUND {round_} FOR PLAYER {player+1}\n")
             countdown()
+
+            #Run core game loop
             duration, guesses_left = gameloop(word_len)
 
             #Determine round didn't fail, if so, add to score
@@ -122,8 +122,8 @@ def main_game(player_number):
                 streak[player] = 0
             
         info_printer(round_score, streak, round_, score, player_number)
+    return score
         
-
 #/****************************************************************/
 
 #SET UP BEGINNING OF GAME
@@ -134,7 +134,6 @@ def begin_game():
     line_printer()
     print("\nWELCOME TO HANGMAN!\n")
     line_printer()
-    print("Press ... to quit.")
 
     #Figure out number of players
     player_number = ""
@@ -142,7 +141,8 @@ def begin_game():
 
     #Check that '1' or '2' is inputted, and nothing else
     while player_number not in valid_player_numbers:
-        player_number = input("Enter '1' for singleplayer, enter '2' for multiplayer: ")
+
+        player_number = inputter("Enter '1' for singleplayer, enter '2' for multiplayer: ") 
 
         if player_number not in valid_player_numbers:
             print("\nNot a valid response.")
@@ -155,9 +155,45 @@ def begin_game():
     else:
         print("You have chosen multiplayer.")
     
-    
-    main_game(player_number)
+    #Return scores to be shown at end of game
+    total_scores = main_game(player_number)
+    if player_number == 2:
+        return total_scores
+    else:
+        return [total_scores[0]]
 
 #/****************************************************************/
 
-begin_game()
+#Function for contolling entire game
+
+def whole_game():
+
+    try:
+        #Start game, get final scores at end
+        scores = begin_game()
+
+        #Print final scores
+        if len(scores) == 1:
+            print(f"OVERALL SCORE: {scores}")
+        else:
+            print(f"OVERALL SCORE FOR PLAYER 1: {scores[0]}")
+            print(f"OVERALL SCORE FOR PLAYER 2: {scores[1]}\n")
+
+            #Determine who won, or if there was a tie
+            if scores[0] > scores[1]:
+                print("PLAYER 1 WINS!")
+            elif scores[1] > scores[0]:
+                print("PLAYER 2 WINS!")
+            else:
+                print("PLAYER 1 AND 2 ARE TIED!")
+        
+        #Give final information
+        
+        inputter("Otherwise, press enter to continue.") 
+
+    except KeyboardInterrupt:
+        print("Bye bye!")      
+
+#/****************************************************************/
+
+whole_game()
