@@ -44,7 +44,7 @@ def inputter(text):
 def letter_validator(guesses_left, guesses):
     
     #First, get input
-    inputter("Guess a letter")
+    letter_guess = inputter("Guess a letter: ")
     
     #Generate list of all uppercase letters in alphabet
     upper_letters = string.ascii_uppercase
@@ -68,6 +68,20 @@ def letter_validator(guesses_left, guesses):
 
 #/****************************************************************/
 
+def hint_system(guess_word, guesses):
+
+    #Use sets to easily find remaining letters to guess
+    guess_word = set(guess_word)
+    guesses = set(guesses)
+    guesses_left = guess_word - guesses
+
+    #Choose random letter and give it to player
+    random_letter = random.choice(list(guesses_left))
+    print("You're struggling with this word...")
+    print(f"Try the letter: {random_letter}\n")
+
+#/****************************************************************/
+
 #Main hangman gameplay loop
 def hangman_loop(guess_word, stages, word_len):
 
@@ -75,6 +89,7 @@ def hangman_loop(guess_word, stages, word_len):
     guesses = []
     incorrect_guesses = []
     guesses_left = 10
+    hint_given = False
 
     #generate blank state for word to be shown, eg. '____'
     word_shown = []
@@ -118,6 +133,13 @@ def hangman_loop(guess_word, stages, word_len):
         #finally check if whole word is guessed correctly
         if word_shown == guess_word:
             break
+        
+        #activate hint system if running out of guesses
+        if guesses_left == 1 and not hint_given:
+            hint_system(guess_word, guesses)
+            
+            #Use this variable so hint only given once
+            hint_given = True
 
     return guesses_left
 
