@@ -40,29 +40,50 @@ def gameloop(word_len):
 def countdown():
     
     time.sleep(0.5)
-    print("GET READY FOR NEXT ROUND!")
+    print("GET READY TO GUESS WORD!")
     for count in ['3', '2', '1']:
         time.sleep(1)
         print(count)
 
     print("GO!\n")
-    
+
 #/****************************************************************/
 
-#Print out information for singleplayer game:
-def singeplayer_info_printer(round_score, streak, round_, score):
+def line_printer():
     print("-----------------------------------")
-    print(f"Score for Round: {round_score}")
-    print(f"Streak: {streak}")
-        
-    print(f"TOTAL SCORE FOR ROUND {round_}: {score}")
-    print("-----------------------------------")
+
+#/****************************************************************/
+
+#Print out information for each round of game:
+def info_printer(round_score, streak, round_, score, player_number):
+    
+    #Print info for just singleplayer
+    if player_number == 1:
+        line_printer()
+        print(f"Score for Round: {round_score[0]}")
+        print(f"Streak: {streak[0]}")         
+        print(f"TOTAL SCORE FOR ROUND {round_}: {score[0]}")
+        line_printer()
+
+    #Print info for both players, using for loop
+    else:
+        line_printer()
+        for player in range(player_number):
+            print(f"Player {player + 1} score for Round: {round_score[player]}")
+            print(f"Player {player + 1} streak: {streak[player]}")         
+            print(f"PLAYER {player + 1} TOTAL SCORE FOR ROUND {round_}: {score[player]}")
+            line_printer()
+    
+    #Have some delay to allow player(s) to view scores
+    time.sleep(3)
 
 #/****************************************************************/
 
 def main_game(player_number):
-    score = 0
-    streak = 0
+
+    score = [0,0]
+    round_score = [0,0]
+    streak = [0,0]
 
     #generate list of all lengths to be used
     #Start at length 4, as going smaller has lots of acronyms
@@ -70,34 +91,38 @@ def main_game(player_number):
     all_word_lens = list(range(4,14))
 
     for word_len in all_word_lens:
-        print("\n****************************************")
-        round_ = word_len-3
-        print(f"\nROUND {round_}\n")
-        countdown()
-        duration, guesses_left = gameloop(word_len)
+        for player in range(player_number):
+            print("\n****************************************")
+            round_ = word_len-3
+            if player_number == 1:
+                print(f"\nROUND {round_}\n")
+            else:
+                print(f"\nROUND {round_} FOR PLAYER {player+1}\n")
+            countdown()
+            duration, guesses_left = gameloop(word_len)
 
-        #Determine round didn't fail, if so, add to score
-        if guesses_left > 0:
+            #Determine round didn't fail, if so, add to score
+            if guesses_left > 0:
 
-            #Do score based on inverse of time taken,
-            #Thus faster has more score
-            round_score = round(100 / duration) 
+                #Do score such that faster time gets more score
+                round_score[player] = round(100 / duration) 
 
-            #Times by word length, so that longer words score better
-            round_score *= word_len
+                #Times by word length, so that longer words score better
+                round_score[player] *= word_len
 
-            #Players get rewarded with 'streak' system,
-            #where more succesful games in a row also increases score
-            streak += 1
-            round_score *= streak
-            score += round_score
+                #Players get rewarded with 'streak' system,
+                #where more succesful games in a row also increases score
+                streak[player] += 1
+                round_score[player] *= streak[player]
+                score[player] += round_score[player]
 
-        #Score should be nothing for failed round
-        else:
-            round_score = 0
-            streak = 0
+            #Score should be nothing for failed round
+            else:
+                round_score[player] = 0
+                streak[player] = 0
+            
+        info_printer(round_score, streak, round_, score, player_number)
         
-        singeplayer_info_printer(round_score, streak, round_, score)
 
 #/****************************************************************/
 
@@ -106,9 +131,9 @@ def main_game(player_number):
 def begin_game():
 
     #Print out main information
-    print("-----------------------------------")
+    line_printer()
     print("\nWELCOME TO HANGMAN!\n")
-    print("-----------------------------------")
+    line_printer()
     print("Press ... to quit.")
 
     #Figure out number of players
