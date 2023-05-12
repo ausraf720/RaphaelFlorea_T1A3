@@ -84,7 +84,6 @@ def score_calc(duration, player, score, round_score, streak):
     finally:
         #Players get rewarded with 'streak' system,
         #where more succesful games in a row also increases score
-        streak[player] += 1
         round_score[player] *= streak[player]
         score[player] += round_score[player]
 
@@ -124,6 +123,7 @@ def main_game(player_number):
 
             #Determine round didn't fail, if so, add to score
             if guesses_left > 0:
+                streak[player] += 1
                 score_calc(duration, player, score, round_score, streak)
             else:
                 round_score[player] = 0
@@ -209,4 +209,3 @@ def whole_game():
 
 #/***********************************************************************************************/
 
-#whole_game()

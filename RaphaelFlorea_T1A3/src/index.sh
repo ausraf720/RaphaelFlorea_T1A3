@@ -14,7 +14,7 @@ python3 -m venv hangman_venv
 pip install pytest
 
 #Run file
-python3 main.py
+pytest testing.py
 
 #Remove virtual environment
 rm -r hangman_venv
