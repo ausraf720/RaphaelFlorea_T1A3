@@ -1,20 +1,22 @@
-#/****************************************************************/
+#/***********************************************************************************************/
 
 from hangman_gameloop import word_generator, hangman_loop, inputter
-from wordlist_builder import grand_list
-from hangman_classes import stages
+from wordlist_builder import grand_list_builder, wordlist_opener
+from hangman_classes import stages_initialiser, stage_builder
 
 import time
 import numpy as np
 
-#/****************************************************************/
+#/***********************************************************************************************/
 
 #Function to control entire game loop for a single round
 def gameloop(word_len):
     time_start = time.time()
 
     #Run functions to generate word, then ask to guess word
-    guess_word = word_generator(word_len, grand_list)
+    word_list = grand_list_builder(wordlist_opener())
+    guess_word = word_generator(word_len, word_list)
+    stages = stage_builder(stages_initialiser())
     guesses_left = hangman_loop(guess_word, stages, word_len)
 
     time_finish = time.time()
@@ -26,7 +28,7 @@ def gameloop(word_len):
         print("GUESSED WORD CORRECTLY!")
     return duration, guesses_left
 
-#/****************************************************************/
+#/***********************************************************************************************/
 
 #A QUICK COUNTDOWN BEFORE ROUND BEGINS
 
@@ -40,12 +42,12 @@ def countdown():
 
     print("GO!\n")
 
-#/****************************************************************/
+#/***********************************************************************************************/
 
 def line_printer():
     print("-----------------------------------")
 
-#/****************************************************************/
+#/***********************************************************************************************/
 
 #Print out information for each round of game:
 def info_printer(round_score, streak, round_, score, player_number):
@@ -70,7 +72,7 @@ def info_printer(round_score, streak, round_, score, player_number):
     #Have some delay to allow player(s) to view scores
     time.sleep(3)
 
-#/****************************************************************/
+#/***********************************************************************************************/
 
 def main_game(player_number):
 
@@ -104,17 +106,20 @@ def main_game(player_number):
             #Determine round didn't fail, if so, add to score
             if guesses_left > 0:
 
-                #Do score such that faster time gets more score
-                round_score[player] = round(100 / duration) 
+                #Do score such that faster time gets more score, cap at 1000
+                try:
+                    round_score[player] = min([round(100 / duration), 1000])
+                except ZeroDivisionError:
+                    round_score[player] = 1000
+                finally:
+                    #Times by word length, so that longer words score better
+                    round_score[player] *= word_len
 
-                #Times by word length, so that longer words score better
-                round_score[player] *= word_len
-
-                #Players get rewarded with 'streak' system,
-                #where more succesful games in a row also increases score
-                streak[player] += 1
-                round_score[player] *= streak[player]
-                score[player] += round_score[player]
+                    #Players get rewarded with 'streak' system,
+                    #where more succesful games in a row also increases score
+                    streak[player] += 1
+                    round_score[player] *= streak[player]
+                    score[player] += round_score[player]
 
             #Score should be nothing for failed round
             else:
@@ -124,7 +129,7 @@ def main_game(player_number):
         info_printer(round_score, streak, round_, score, player_number)
     return score
         
-#/****************************************************************/
+#/***********************************************************************************************/
 
 #SET UP BEGINNING OF GAME
 
@@ -136,17 +141,22 @@ def begin_game():
     line_printer()
 
     #Figure out number of players
-    player_number = ""
-    valid_player_numbers = ['1', '2']
 
+    player_number = 0
     #Check that '1' or '2' is inputted, and nothing else
+    valid_player_numbers = [1,2]
     while player_number not in valid_player_numbers:
 
         player_number = inputter("Enter '1' for singleplayer, enter '2' for multiplayer: ") 
 
-        if player_number not in valid_player_numbers:
-            print("\nNot a valid response.")
-            print("Press ... to quit.")
+        #Try to find if input is valid number
+        try:
+            player_number = int(player_number)
+        except ValueError:
+            print("\nNot a number.")
+        else:
+            if player_number not in valid_player_numbers:
+                print("\nNot a valid number.")
 
     #Print out relevant message to response
     player_number = int(player_number)
@@ -162,7 +172,7 @@ def begin_game():
     else:
         return [total_scores[0]]
 
-#/****************************************************************/
+#/***********************************************************************************************/
 
 #Function for contolling entire game
 
@@ -194,6 +204,6 @@ def whole_game():
     except KeyboardInterrupt:
         print("Bye bye!")      
 
-#/****************************************************************/
+#/***********************************************************************************************/
 
 whole_game()

@@ -30,44 +30,50 @@ class hangman_stage:
 
 
 #Here, make the full hangman picture to be printed out
-lines = []
-lines.append('_______ ')
-lines.append('|    |  ')
-lines.append('|    O  ')
-lines.append('|   -|- ')
-lines.append('|   / \ ')
-lines.append('|_______')
-stage10 = hangman_stage(lines)
+def stages_initialiser():
+    lines = []
+    lines.append('_______ ')
+    lines.append('|    |  ')
+    lines.append('|    O  ')
+    lines.append('|   -|- ')
+    lines.append('|   / \ ')
+    lines.append('|_______')
+    stage10 = hangman_stage(lines)
 
-#Make a list of all the hangman stages
-#Note, the list will be reversed at the end,
-#as appending stages in backwards order
+    #Make a list of all the hangman stages
+    #Note, the list will be reversed at the end,
+    #as appending stages in backwards order
 
-stages = []
-stages.append(stage10)
+    stages = []
+    stages.append(stage10)
+    return stages
 
 #/****************************************************************/
 
 #Now start adding all the other stages, using 'stage_adder'
-stage9 = stage10.stage_adder(stages, 4, '|   /   ')
-stage8 = stage9.stage_adder(stages, 4, '|       ')
-stage7 = stage8.stage_adder(stages, 3, '|   -|  ')
-stage6 = stage7.stage_adder(stages, 3, '|    |  ')
-stage5 = stage6.stage_adder(stages, 3, '|       ')
-stage4 = stage5.stage_adder(stages, 2, '|       ')
-stage3 = stage4.stage_adder(stages, 1, '|       ')
-stage2 = stage3.stage_adder(stages, 0, '        ')
+def stage_builder(stages):
+    stage10 = stages[0]
+    stage9 = stage10.stage_adder(stages, 4, '|   /   ')
+    stage8 = stage9.stage_adder(stages, 4, '|       ')
+    stage7 = stage8.stage_adder(stages, 3, '|   -|  ')
+    stage6 = stage7.stage_adder(stages, 3, '|    |  ')
+    stage5 = stage6.stage_adder(stages, 3, '|       ')
+    stage4 = stage5.stage_adder(stages, 2, '|       ')
+    stage3 = stage4.stage_adder(stages, 1, '|       ')
+    stage2 = stage3.stage_adder(stages, 0, '        ')
 
-#stage1 needs to remove vertical left column of hangman picture,
-#Thus, call modify_line function directly to remove from each line
+    #stage1 needs to remove vertical left column of hangman picture,
+    #Thus, call modify_line function directly to remove from each line
 
-stage1 = deepcopy(stage2)
-for i in range(1,5):
-    stage1.modify_line(i, '        ')
-stage1.modify_line(5, ' _______')
-stages.append(stage1)
+    stage1 = deepcopy(stage2)
+    for i in range(1,5):
+        stage1.modify_line(i, '        ')
+    stage1.modify_line(5, ' _______')
+    stages.append(stage1)
 
-#Finally create initial blank stage
-stage0 = stage1.stage_adder(stages, 5, '        ')
+    #Finally create initial blank stage
+    stage0 = stage1.stage_adder(stages, 5, '        ')
+    stages.append(stage0)
+    return stages
 
 #/****************************************************************/

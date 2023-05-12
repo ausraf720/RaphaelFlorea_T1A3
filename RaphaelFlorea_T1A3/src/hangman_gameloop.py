@@ -61,7 +61,7 @@ def letter_validator(guesses_left, guesses):
         print(f"Guesses remaining: {guesses_left}")
 
         #Keep prompting for guess until quit or valid guess given
-        letter_guess = inputter("Guess a letter: ")
+        letter_guess = inputter("\nGuess a letter: ")
         letter_guess = letter_guess.upper()
 
     return letter_guess
@@ -128,7 +128,6 @@ def hangman_loop(guess_word, stages, word_len):
         stages[guesses_left].printer()
         print(f"\nIncorrect guesses: {incorrect_guesses}")
         print(f"Guesses remaining: {guesses_left}")
-        print("Press ... to quit.\n")
 
         #finally check if whole word is guessed correctly
         if word_shown == guess_word:
