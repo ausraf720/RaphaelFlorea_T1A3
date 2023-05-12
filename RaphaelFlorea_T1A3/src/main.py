@@ -74,6 +74,25 @@ def info_printer(round_score, streak, round_, score, player_number):
 
 #/***********************************************************************************************/
 
+def score_calc(duration, player, score, round_score, streak):
+    
+    #Do score such that faster time gets more score, cap at 1000
+    try:
+        round_score[player] = min([round(100 / duration), 1000])
+    except ZeroDivisionError:
+        round_score[player] = 1000
+    finally:
+        #Players get rewarded with 'streak' system,
+        #where more succesful games in a row also increases score
+        streak[player] += 1
+        round_score[player] *= streak[player]
+        score[player] += round_score[player]
+
+    #Return score for testing
+    return round_score
+
+#/***********************************************************************************************/
+
 def main_game(player_number):
 
     #Initialise scoring, for both 1 and 2 players
@@ -105,23 +124,7 @@ def main_game(player_number):
 
             #Determine round didn't fail, if so, add to score
             if guesses_left > 0:
-
-                #Do score such that faster time gets more score, cap at 1000
-                try:
-                    round_score[player] = min([round(100 / duration), 1000])
-                except ZeroDivisionError:
-                    round_score[player] = 1000
-                finally:
-                    #Times by word length, so that longer words score better
-                    round_score[player] *= word_len
-
-                    #Players get rewarded with 'streak' system,
-                    #where more succesful games in a row also increases score
-                    streak[player] += 1
-                    round_score[player] *= streak[player]
-                    score[player] += round_score[player]
-
-            #Score should be nothing for failed round
+                score_calc(duration, player, score, round_score, streak)
             else:
                 round_score[player] = 0
                 streak[player] = 0
@@ -206,4 +209,4 @@ def whole_game():
 
 #/***********************************************************************************************/
 
-whole_game()
+#whole_game()
