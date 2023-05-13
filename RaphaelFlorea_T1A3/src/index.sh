@@ -1,20 +1,29 @@
 #!/bin/bash
 
 #Check if Python 3 is installed
-if which python3 >/dev/null 2>&1; then
-    echo "Python 3 is installed. This program will now run."
+if [[ -x "$(command -v python3)" ]]; then
+    echo "Python 3 is installed. Able to run program."
 else
     echo "Python 3 is not installed. Install before running."
+    exit 1
 fi
 
 #Create virtual environment
 python3 -m venv hangman_venv
 
-# Install pytest
-pip install pytest
+echo "Enter 't' to run test, enter anything else to run program."
+read input
+if [[ "$input" == "t" ]] ; then
+	
+    # Install pytest, then run program
+    pip install pytest
+    pytest testing.py
 
-#Run file
-pytest testing.py
+else
+    python3 run_game.py
+fi
+
+deactivate
 
 #Remove virtual environment
 rm -r hangman_venv
