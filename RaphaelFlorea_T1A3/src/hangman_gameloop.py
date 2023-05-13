@@ -1,4 +1,4 @@
-#/****************************************************************/
+#/***********************************************************************************************/
 
 #Import all necessary functions/classes variables
 #This will be done to build guessing mechanic of game
@@ -8,7 +8,7 @@ import string
 
 from hangman_classes import hangman_stage
 
-#/****************************************************************/
+#/***********************************************************************************************/
 
 #MAIN MANUAL TESTING FEATURE
 """Used for testing purposes, to print actual word to be guessed,
@@ -19,7 +19,7 @@ def optional_print_word(print_option, guess_word):
     if print_option == True:
         print(guess_word)
 
-#/****************************************************************/
+#/***********************************************************************************************/
 
 #Random word generator, to find word for game
 def word_generator(word_len, grand_list):
@@ -34,11 +34,11 @@ def word_generator(word_len, grand_list):
     guess_word = list(guess_word.upper())
 
     #Here, select if want to print guess word for testing purposes
-    optional_print_word(False, guess_word)
+    optional_print_word(True, guess_word)
 
     return guess_word
     
-#/****************************************************************/
+#/***********************************************************************************************/
 
 #Function used to control all inputs
 def inputter(text):
@@ -51,7 +51,7 @@ def inputter(text):
     else:
         return input_val
 
-#/****************************************************************/
+#/***********************************************************************************************/
 
 #Validate the letter to be guessed based on input
 def letter_validator(guesses_left, guesses):
@@ -79,8 +79,9 @@ def letter_validator(guesses_left, guesses):
 
     return letter_guess
 
-#/****************************************************************/
+#/***********************************************************************************************/
 
+#This function gives a single hint if called
 def hint_system(guess_word, guesses):
 
     #Use sets to easily find remaining letters to guess
@@ -93,7 +94,28 @@ def hint_system(guess_word, guesses):
     print("You're struggling with this word...")
     print(f"Try the letter: {random_letter}\n")
 
-#/****************************************************************/
+#/***********************************************************************************************/
+
+def guess_checker(letter, guess_word, word_shown, incorrect_guesses, guesses_left):
+
+    #Check if letter in word
+    if letter in guess_word:
+        print("That is a correct letter!")
+
+        #If letter is correct, add the letter to 'word_shown'
+        #Thus, displayed word will be updated with guess
+        for itr in range(len(guess_word)):
+            if letter == guess_word[itr]:
+                word_shown[itr] = letter
+    
+    #If guess wrong, guesses left reduces by one
+    else:
+        print("That is not correct!")
+        guesses_left -= 1
+        incorrect_guesses.append(letter)
+    return guesses_left
+
+#/***********************************************************************************************/
 
 #Main hangman gameplay loop
 def hangman_loop(guess_word, stages, word_len):
@@ -114,21 +136,9 @@ def hangman_loop(guess_word, stages, word_len):
         #First, check letter is valid, and obtain letter
         letter = letter_validator(guesses_left, guesses)
 
-        #Check if letter in word
-        if letter in guess_word:
-            print("That is a correct letter!")
-
-            #If letter is correct, add the letter to 'word_shown'
-            #Thus, displayed word will be updated with guess
-            for itr in range(word_len):
-                if letter == guess_word[itr]:
-                    word_shown[itr] = letter
-        
-        #If guess wrong, guesses left reduces by one
-        else:
-            print("That is not correct!")
-            guesses_left -= 1
-            incorrect_guesses.append(letter)
+        #Figure out if number of guesses are reduced
+        guesses_left = \
+            guess_checker(letter, guess_word, word_shown, incorrect_guesses, guesses_left)
 
         guesses.append(letter)
 
@@ -155,7 +165,7 @@ def hangman_loop(guess_word, stages, word_len):
 
     return guesses_left
 
-#/****************************************************************/
+#/***********************************************************************************************/
 
 
 

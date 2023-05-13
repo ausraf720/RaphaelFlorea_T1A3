@@ -1,12 +1,13 @@
 import pytest
 from main import score_calc
-from hangman_gameloop import hangman_loop, letter_validator
+from hangman_gameloop import guess_checker
 
 #/***********************************************************************************************/
 #/***********************************************************************************************/
 
-#INITALISE VARIABLES FOR TESTING SCORE SYSTEM
+#TESTING FOR SCORE SYSTEM - TEST IF SCORES OUTPUTTED ARE CORRECT
 
+#Initialise variables
 #Player1 is index 0, only testing player1
 player1 = 0
 #Overall_score always at 0 for both players, doesn't affect result
@@ -68,3 +69,21 @@ def test_scorer(duration, player, score, round_score, streak, result):
     assert player_round_score[0] == result
 
 #/***********************************************************************************************/
+#/***********************************************************************************************/
+
+#TESTING FOR CHECKING IF LETTER IN WORD - TEST IF FUNCTION DETERMINES IF GUESSED LEFT REDUCES
+
+#Initialise variables, for these tests word length will be length 5
+#Word shown is blank, doesn't affect test result
+word_shown = ['_', '_', '_', '_', '_']
+#No incorrect guesses to start with, doesn't affect test result
+incorrect_guesses = []
+
+#Start with guesses left as 10, but will change later
+guesses_left_10 = 10
+#Start with word 'snake', but will change later
+guess_word_snake = ['s', 'n', 'a', 'k', 'e']
+
+#/***********************************************************************************************/
+
+print(guess_checker('f', guess_word_snake, word_shown, incorrect_guesses, guesses_left_10))
