@@ -1,7 +1,7 @@
 #/****************************************************************************/
 
-from hangman_gameloop \
-    import word_generator, hangman_loop, inputter, word_joiner
+from hangman_gameloop import word_generator, hangman_loop, inputter, \
+                             word_joiner, optional_print_word
 from wordlist_builder import grand_list_builder, wordlist_opener
 from hangman_classes import stages_initialiser, stage_builder
 
@@ -11,13 +11,19 @@ import time
 
 
 #Function to control entire game loop for a single round
-def gameloop(word_len, word_list):
+def gameloop(word_len, word_list, cheats):
 
     #Record the time before running the whole round
     time_start = time.time()
 
     #Run functions to generate word, then ask to guess word
     guess_word = word_generator(word_len, word_list)
+
+    #Here, select if want to print guess word for testing purposes
+
+
+    optional_print_word(cheats, guess_word)
+
     stages = stage_builder(stages_initialiser())
     guesses_left = hangman_loop(guess_word, stages, word_len)
 
@@ -116,7 +122,7 @@ def score_calc(duration, player, score, round_score, streak):
 #/****************************************************************************/
 
 #Main function to run entire game
-def main_game(player_number):
+def main_game(player_number, cheats):
 
     #Initialise scoring, for both 1 and 2 players
     score = [0,0]
@@ -147,7 +153,7 @@ def main_game(player_number):
             countdown()
 
             #Run core game loop for single round
-            duration, guesses_left = gameloop(word_len, word_list)
+            duration, guesses_left = gameloop(word_len, word_list, cheats)
 
             #Determine round didn't fail, if so, add to score
             if guesses_left > 0:
@@ -166,11 +172,14 @@ def main_game(player_number):
 #/****************************************************************************/
 
 #Set up pre-game information
-def begin_game():
+def begin_game(cheats):
 
     #Print out main title
     line_printer()
-    print("\nWELCOME TO HANGMAN!\n")
+    if cheats:
+        print("\nWELCOME TO HANGMAN (with cheats)!\n")
+    else:   
+        print("\nWELCOME TO HANGMAN!\n")
     line_printer()
 
     #Next piece of code is to figure out number of players
@@ -208,14 +217,14 @@ def begin_game():
 #/****************************************************************************/
 
 #Function for contolling entire game, start to finish
-def whole_game():
+def whole_game(cheats=False):
 
     try:
         #Start game, find number of players
-        player_number = begin_game()
+        player_number = begin_game(cheats)
 
         #Get scores from main gameplay
-        total_scores = main_game(player_number)
+        total_scores = main_game(player_number, cheats)
         if player_number == 2:
             scores = total_scores
         else:

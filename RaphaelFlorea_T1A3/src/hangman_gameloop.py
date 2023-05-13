@@ -40,10 +40,6 @@ def word_generator(word_len, grand_list):
     guess_word = current_word_list[word_index]
     guess_word = list(guess_word.upper())
 
-    #Here, select if want to print guess word for testing purposes
-    print_guess_word = True
-    optional_print_word(print_guess_word, guess_word)
-
     return guess_word
     
 #/****************************************************************************/
