@@ -1,6 +1,7 @@
 #/***********************************************************************************************/
 
 import pytest
+
 from main import score_calc
 from hangman_gameloop import guess_checker
 
@@ -10,14 +11,14 @@ from hangman_gameloop import guess_checker
 #TESTING FOR SCORE SYSTEM - TEST IF SCORES OUTPUTTED ARE CORRECT
 
 #Initialise variables
-#Player1 is index 0, only testing player1
+#Player1 is index 0, these tests will only test for player1
 player1 = 0
-#Overall_score always at 0 for both players, doesn't affect result
+#Overall_score always at 0 for both players, won't affect test result
 overall_score_0 = [0,0]
-#Round_score always at 0 for both players, doesn't affect result
+#Round_score always at 0 for both players, won't affect test result
 round_score_0 = [0,0]
 
-#Streaks start at 1 for both players (but will be changed later)
+#Streaks start at 1 for both players, but will be changed later
 streak_1 = [1,1]
 
 #/***********************************************************************************************/
@@ -42,7 +43,7 @@ test3 = (duration_hour, player1, overall_score_0, round_score_0, streak_1, small
 
 #FOURTH TEST
 """Want to test if player 1 has streak of 5, 
-    and duration of 50 seconds for turn
+    and duration of 50 seconds for turn,
     their score should be (100 / 50) * 5 = 10
 """
 duration_50 = 50
@@ -52,7 +53,7 @@ test4 = (duration_50, player1, overall_score_0, round_score_0, streak_5, result_
 
 #FIFTH TEST
 """Want to test if player 1 has streak of 7, 
-    and duration of 5 seconds for turn
+    and duration of 5 seconds for turn,
     their score should be (100 / 5) * 7 = 140
 """
 duration_5 = 5
@@ -73,12 +74,12 @@ def test_scorer(duration, player, score, round_score, streak, result):
 #/***********************************************************************************************/
 #/***********************************************************************************************/
 
-#TESTING FOR CHECKING IF LETTER IN WORD - TEST IF FUNCTION DETERMINES IF GUESSED LEFT REDUCES
+#TESTING FOR CHECKING IF LETTER IN WORD - TEST IF FUNCTION DETERMINES IF GUESSES LEFT REDUCES
 
 #Initialise variables, for these tests word length will be length 5
-#Word shown is blank, doesn't affect test result
+#Word shown is blank, won't affect test result
 word_shown = ['_', '_', '_', '_', '_']
-#No incorrect guesses to start with, doesn't affect test result
+#No incorrect guesses to start with, won't affect test result
 incorrect_guesses = []
 
 #Start with guesses left as 10, but will change later

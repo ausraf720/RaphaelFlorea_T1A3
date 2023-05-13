@@ -1,4 +1,4 @@
-#/****************************************************************/
+#/***********************************************************************************************/
 
 from copy import deepcopy
 
@@ -17,16 +17,16 @@ class hangman_stage:
     def modify_line(self, line_index, new_line):
         self.lines[line_index] = new_line
 
-    #This builds on previous function
-    #It deep-copies the previous hangman stage,
-    #then modifies line of next stage and adds it to list of stages
+    """This builds on previous function
+        It deep-copies the previous hangman stage,
+        then modifies line of next stage and adds it to list of stages"""
     def stage_adder(self, stages, line_index, new_line):
         new_stage = deepcopy(self)
         new_stage.modify_line(line_index, new_line)
         stages.append(new_stage)
         return new_stage
 
-#/****************************************************************/
+#/***********************************************************************************************/
 
 
 #Here, make the full hangman picture to be printed out
@@ -38,17 +38,18 @@ def stages_initialiser():
     lines.append('|   -|- ')
     lines.append('|   / \ ')
     lines.append('|_______')
+
+    #Make first instance of hangman_stage class
     stage10 = hangman_stage(lines)
 
     #Make a list of all the hangman stages
-    #Note, the list will be reversed at the end,
-    #as appending stages in backwards order
-
+    """Note, the list will be reversed at the end,
+        as appending stages in backwards order"""
     stages = []
     stages.append(stage10)
     return stages
 
-#/****************************************************************/
+#/***********************************************************************************************/
 
 #Now start adding all the other stages, using 'stage_adder'
 def stage_builder(stages):
@@ -64,7 +65,6 @@ def stage_builder(stages):
 
     #stage1 needs to remove vertical left column of hangman picture,
     #Thus, call modify_line function directly to remove from each line
-
     stage1 = deepcopy(stage2)
     for i in range(1,5):
         stage1.modify_line(i, '        ')
@@ -76,4 +76,4 @@ def stage_builder(stages):
     stages.append(stage0)
     return stages
 
-#/****************************************************************/
+#/***********************************************************************************************/
