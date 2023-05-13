@@ -5,7 +5,6 @@ from wordlist_builder import grand_list_builder, wordlist_opener
 from hangman_classes import stages_initialiser, stage_builder
 
 import time
-import numpy as np
 
 #/***********************************************************************************************/
 

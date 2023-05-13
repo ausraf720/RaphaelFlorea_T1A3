@@ -10,6 +10,17 @@ from hangman_classes import hangman_stage
 
 #/****************************************************************/
 
+#MAIN MANUAL TESTING FEATURE
+"""Used for testing purposes, to print actual word to be guessed,
+    that way, can test if by putting in correct inputs
+    #program can be tested to determine that word is correctly guesses"""
+
+def optional_print_word(print_option, guess_word):
+    if print_option == True:
+        print(guess_word)
+
+#/****************************************************************/
+
 #Random word generator, to find word for game
 def word_generator(word_len, grand_list):
 
@@ -22,7 +33,9 @@ def word_generator(word_len, grand_list):
     guess_word = current_word_list[word_index]
     guess_word = list(guess_word.upper())
 
-    print(guess_word)
+    #Here, select if want to print guess word for testing purposes
+    optional_print_word(False, guess_word)
+
     return guess_word
     
 #/****************************************************************/
@@ -54,14 +67,14 @@ def letter_validator(guesses_left, guesses):
 
         #Check if guess is valid letter
         if letter_guess in guesses:
-            print("You have already guessed that letter.")
+            print("\nYou have already guessed that letter.")
         elif letter_guess not in upper_letters:
-            print("That's not a valid guess.")
+            print("\nThat's not a valid guess.")
 
         print(f"Guesses remaining: {guesses_left}")
 
         #Keep prompting for guess until quit or valid guess given
-        letter_guess = inputter("\nGuess a letter: ")
+        letter_guess = inputter("Guess a letter: ")
         letter_guess = letter_guess.upper()
 
     return letter_guess
