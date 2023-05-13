@@ -1,12 +1,14 @@
-#/***********************************************************************************************/
+#/****************************************************************************/
 
-from hangman_gameloop import word_generator, hangman_loop, inputter, word_joiner
+from hangman_gameloop \
+    import word_generator, hangman_loop, inputter, word_joiner
 from wordlist_builder import grand_list_builder, wordlist_opener
 from hangman_classes import stages_initialiser, stage_builder
 
 import time
 
-#/***********************************************************************************************/
+#/****************************************************************************/
+
 
 #Function to control entire game loop for a single round
 def gameloop(word_len, word_list):
@@ -19,11 +21,13 @@ def gameloop(word_len, word_list):
     stages = stage_builder(stages_initialiser())
     guesses_left = hangman_loop(guess_word, stages, word_len)
 
-    #Calculate overall time for round, by finding difference between start and end times
+    #Calculate overall time for round, 
+    # by finding difference between start and end times
     time_finish = time.time()
     duration = time_finish - time_start
 
-    #Determine if guesses_left is 0, meaning hangman is hanged and round failed
+    #Determine if guesses_left is 0, 
+    # meaning hangman is hanged and round failed
     if guesses_left == 0:
         print("FAILURE!\n")
 
@@ -35,9 +39,10 @@ def gameloop(word_len, word_list):
         print("GUESSED WORD CORRECTLY!")
     return duration, guesses_left
 
-#/***********************************************************************************************/
+#/****************************************************************************/
 
-#A quick countdown function before round begins, giving players time to get ready
+#A quick countdown function before round begins, 
+# giving players time to get ready
 def countdown():
     
     time.sleep(0.5)
@@ -50,13 +55,13 @@ def countdown():
 
     print("GO!\n")
 
-#/***********************************************************************************************/
+#/****************************************************************************/
 
 #Often need to print out long character line, so this function handles that
 def line_printer():
     print("-----------------------------------")
 
-#/***********************************************************************************************/
+#/****************************************************************************/
 
 #Print out information for each round of game:
 def info_printer(round_score, streak, round_, score, player_number):
@@ -73,15 +78,18 @@ def info_printer(round_score, streak, round_, score, player_number):
     else:
         line_printer()
         for player in range(player_number):
-            print(f"Player {player + 1} score for Round: {round_score[player]}")
-            print(f"Player {player + 1} streak: {streak[player]}")         
-            print(f"PLAYER {player + 1} TOTAL SCORE FOR ROUND {round_}: {score[player]}")
+            print(f"Player {player + 1} " +
+                  f"score for Round: {round_score[player]}")
+            print(f"Player {player + 1} " +
+                  f"streak: {streak[player]}")         
+            print(f"PLAYER {player + 1} " +
+                  f"TOTAL SCORE FOR ROUND {round_}: {score[player]}")
             line_printer()
     
     #Have some delay to allow player(s) to view scores
     time.sleep(3)
 
-#/***********************************************************************************************/
+#/****************************************************************************/
 
 #Calculate score for each player for a single round, if round wasn't failure
 def score_calc(duration, player, score, round_score, streak):
@@ -105,7 +113,7 @@ def score_calc(duration, player, score, round_score, streak):
         #Return score for testing purposes
         return round_score
 
-#/***********************************************************************************************/
+#/****************************************************************************/
 
 #Main function to run entire game
 def main_game(player_number):
@@ -155,7 +163,7 @@ def main_game(player_number):
         info_printer(round_score, streak, round_, score, player_number)
     return score
         
-#/***********************************************************************************************/
+#/****************************************************************************/
 
 #Set up pre-game information
 def begin_game():
@@ -167,11 +175,14 @@ def begin_game():
 
     #Next piece of code is to figure out number of players
     player_number = 0
-    #Check that '1' or '2' is inputted, and nothing else ('3' still quits program)
+
+    #Check that '1' or '2' is inputted, 
+    # and nothing else ('3' still quits program)
     valid_player_numbers = [1,2]
     while True:
 
-        player_number = inputter("Enter '1' for singleplayer, enter '2' for multiplayer: ") 
+        player_number = inputter(
+            "Enter '1' for singleplayer, enter '2' for multiplayer: ") 
 
         #Try to find if input is valid number
         try:
@@ -194,7 +205,7 @@ def begin_game():
     #Return number of players
     return player_number
 
-#/***********************************************************************************************/
+#/****************************************************************************/
 
 #Function for contolling entire game, start to finish
 def whole_game():
@@ -231,10 +242,11 @@ def whole_game():
     except KeyboardInterrupt:
         print("Ended program early.")      
     
-    #Always tell player(s) goodbye, give some time before program fully terminates
+    #Always tell player(s) goodbye, 
+    # give some time before program fully terminates
     finally:
         print("\nThanks for playing! Bye bye!\n")
         time.sleep(0.5)
 
-#/***********************************************************************************************/
+#/****************************************************************************/
 
