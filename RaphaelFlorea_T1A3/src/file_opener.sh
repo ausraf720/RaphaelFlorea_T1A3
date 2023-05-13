@@ -15,6 +15,7 @@ if [[ "$input" == "t" ]] ; then
     pytest testing.py
 
 elif [[ "$input" == "c" ]] ; then
+
     #Run program file that enables cheats, no dependencies needed to be installed
     python3 run_game_cheats.py    
 

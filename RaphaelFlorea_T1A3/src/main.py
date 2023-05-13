@@ -135,7 +135,7 @@ def main_game(player_number, cheats):
     """Generate list of all lengths to be used:
         - Start at length 4, as going smaller has lots of acronyms
         - End at 14, as English words longer than this aren't common"""
-    all_word_lens = list(range(4,6))
+    all_word_lens = list(range(4, 14))
 
     #Do 10 rounds, each round the word gets longer by 1 letter
     for word_len in all_word_lens:
