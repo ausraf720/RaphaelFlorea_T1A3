@@ -1,3 +1,5 @@
+#/***********************************************************************************************/
+
 import pytest
 from main import score_calc
 from hangman_gameloop import guess_checker
@@ -86,4 +88,46 @@ guess_word_snake = ['s', 'n', 'a', 'k', 'e']
 
 #/***********************************************************************************************/
 
-print(guess_checker('f', guess_word_snake, word_shown, incorrect_guesses, guesses_left_10))
+#If 10 guesses left, and 'e' is guessed, 'e' is in snake, so guesses should stay 10
+letter_e = 'e'
+result_10 = 10
+test6 = (letter_e, guess_word_snake, word_shown, incorrect_guesses, guesses_left_10, result_10)
+
+#If 10 guesses left, and 'f' is guessed, 'f' is not in snake, so guesses should go down to 9
+letter_f = 'f'
+result_9 = 9
+test7 = (letter_f, guess_word_snake, word_shown, incorrect_guesses, guesses_left_10, result_9)
+
+#Test with double-letter words
+#If 5 guesses left, and 'o' is guessed, 'o' is in books, so guesses should stay at 5
+letter_o = 'o'
+guesses_left_5 = 5
+result_5 = 5
+guess_word_books = ['b', 'o', 'o', 'k', 's']
+test8 = (letter_o, guess_word_books, word_shown, incorrect_guesses, guesses_left_5, result_5)
+
+#If 7 guesses left, and 'z' is guessed, 'z' is not in snake, so guesses should go down to 6
+letter_z = 'z'
+guesses_left_7 = 7
+result_6 = 6
+test9 = (letter_z, guess_word_books, word_shown, incorrect_guesses, guesses_left_7, result_6)
+
+#If 1 guess left, and 's' is guessed, 's' is in books, so guesses should stay at 1
+letter_s = 's'
+guesses_left_1 = 1
+result_1 = 1
+test10 = (letter_s, guess_word_books, word_shown, incorrect_guesses, guesses_left_1, result_1)
+
+
+#/***********************************************************************************************/
+
+#NOW RUN ALL TESTS TOGETHER
+@pytest.mark.parametrize(('letter', 'guess_word', 'word_shown', \
+                          'incorrect_guesses', 'guesses_left', 'result'), 
+                         [test6, test7, test8, test9, test10])
+def test_guess_checker(letter, guess_word, word_shown, incorrect_guesses, guesses_left, result):
+
+    guesses_left = guess_checker(letter, guess_word, word_shown, incorrect_guesses, guesses_left)
+    assert guesses_left == result
+
+#/***********************************************************************************************/

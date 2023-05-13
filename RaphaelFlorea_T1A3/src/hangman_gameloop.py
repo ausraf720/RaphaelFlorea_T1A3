@@ -10,6 +10,14 @@ from hangman_classes import hangman_stage
 
 #/***********************************************************************************************/
 
+#A lot of words in program appears as list of characters, so use this to convert back into word
+def word_joiner(word):
+    str = ""
+    word_joined = str.join(word) 
+    return word_joined
+
+#/***********************************************************************************************/
+
 #MAIN MANUAL TESTING FEATURE
 """Used for testing purposes, to print actual word to be guessed,
     that way, can test if by putting in correct inputs
@@ -17,7 +25,7 @@ from hangman_classes import hangman_stage
 
 def optional_print_word(print_option, guess_word):
     if print_option == True:
-        print(guess_word)
+        print(word_joiner(guess_word))
 
 #/***********************************************************************************************/
 
@@ -96,6 +104,7 @@ def hint_system(guess_word, guesses):
 
 #/***********************************************************************************************/
 
+#This function determines if letter is in word or not, and prints out remarks accordingly
 def guess_checker(letter, guess_word, word_shown, incorrect_guesses, guesses_left):
 
     #Check if letter in word
@@ -135,17 +144,14 @@ def hangman_loop(guess_word, stages, word_len):
 
         #First, check letter is valid, and obtain letter
         letter = letter_validator(guesses_left, guesses)
+        guesses.append(letter)
 
         #Figure out if number of guesses are reduced
         guesses_left = \
             guess_checker(letter, guess_word, word_shown, incorrect_guesses, guesses_left)
 
-        guesses.append(letter)
-
         #print word shown as string, not list
-        str = ""
-        word_joined = str.join(word_shown) 
-        print(f"\n{word_joined}")
+        print(f"\n{word_joiner(word_shown)}")
 
         #print actual hangman and other relevant info
         stages[guesses_left].printer()

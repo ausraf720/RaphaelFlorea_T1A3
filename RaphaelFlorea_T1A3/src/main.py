@@ -1,6 +1,6 @@
 #/***********************************************************************************************/
 
-from hangman_gameloop import word_generator, hangman_loop, inputter
+from hangman_gameloop import word_generator, hangman_loop, inputter, word_joiner
 from wordlist_builder import grand_list_builder, wordlist_opener
 from hangman_classes import stages_initialiser, stage_builder
 
@@ -22,7 +22,8 @@ def gameloop(word_len):
     duration = time_finish - time_start
 
     if guesses_left == 0:
-        print("FAILURE!")
+        print("FAILURE!\n")
+        print(f"Correct word was: {word_joiner(guess_word)}")
     else:
         print("GUESSED WORD CORRECTLY!")
     return duration, guesses_left
