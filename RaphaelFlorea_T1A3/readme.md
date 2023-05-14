@@ -5,10 +5,13 @@
 [Github](https://github.com/ausraf720/RaphaelFlorea_T1A3) 
 <br>
 
-[Presentation (Not yet done)](https://www.youtube.com/) 
+[Presentation](https://www.youtube.com/watch?v=MnlbGMgQAEI) 
 <br>
 
 [Trello board](https://trello.com/b/gKbjakpR/project-management) 
+<br>
+
+[List of English words for usage in game](https://github.com/first20hours/google-10000-english) 
 <br>
 
 ## Overview of project
@@ -27,7 +30,7 @@ This project aims to simulate the game 'hangman' in a computer program. It is al
 
 [Link to PEP 8 styling](https://peps.python.org/pep-0008/)
 
-## Implementation plan:
+## Implementation plan
 
 ### Features to be included, in order of priority:
 
@@ -68,7 +71,11 @@ This project aims to simulate the game 'hangman' in a computer program. It is al
 - [x] Bash script that can run program
 - [x] Same script can also run program tests if so desired
 
-## How to run program:
+## Instructions to run program
+
+### OS/System requirements
+
+Program should run on any system with Python 3 installed. Bash scripts will open up Python 3 download page if not installed on system, but this only works for Mac and Windows users (not Linux). Users of other OSs need to manually locate the download page themselves. Bash scripts will install necessary dependencies into virtual environment.
 
 ### Opening the program:
 1. In terminal, change current working directory to the src folder.
@@ -115,7 +122,38 @@ score for round = streak * (100/seconds)
 ```
  3. The final score is the sum of all the scores of the individual rounds using the above formula.
 
- ### Trello project management screenshots in chronological order:
+## Testing information
+
+Automatic tests can be found when running bash scripts and entering 't', but can also be found [here](src/testing.py). They test 2 things:
+
+1. Score system
+
+2. Letter guess system
+
+Manual testing can be done by running bash scripts and entering 'c', which allows the game to play with cheats, so that the word needed to be guessed can be viewed. 
+
+The streak system was manually tested, and the results can be replicated by playing the game with cheats and in singleplayer mode. [Here](./docs/Manual%20testing%20screenshots/Streak%20manual%20testing.pdf) is a link to the spreadhsheet for the manual test.
+
+Below are images as proof for the tests:
+
+1. Test 1:
+
+![Test 1 pic 1](./docs/Manual%20testing%20screenshots/Test%201%20pic%201.png)
+
+2. Test 2:
+
+![Test 2 pic 1](./docs/Manual%20testing%20screenshots/Test%202%20pic%201.png)
+![Test 2 pic 2](./docs/Manual%20testing%20screenshots/Test%202%20pic%202.png)
+
+3. Test 3:
+
+![Test 3 pic 1](./docs/Manual%20testing%20screenshots/Test%203%20pic%201.png)
+![Test 3 pic 2](./docs/Manual%20testing%20screenshots/Test%203%20pic%202.png)
+![Test 3 pic 3](./docs/Manual%20testing%20screenshots/Test%203%20pic%203.png)
+
+
+
+## Trello project management screenshots (in chronological order)
 
 ![Trello screenshot 1](./docs/Trello%20screenshots/Trello%201.png)
 ![Trello screenshot 2](./docs/Trello%20screenshots/Trello%202.png)
@@ -135,3 +173,4 @@ score for round = streak * (100/seconds)
 ![Trello screenshot 16](./docs/Trello%20screenshots/Trello%2016.png)
 ![Trello screenshot 17](./docs/Trello%20screenshots/Trello%2017.png)
 ![Trello screenshot 18](./docs/Trello%20screenshots/Trello%2018.png)
+![Trello screenshot 19](./docs/Trello%20screenshots/Trello%2019.png)

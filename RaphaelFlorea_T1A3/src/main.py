@@ -9,7 +9,6 @@ import time
 
 #/****************************************************************************/
 
-
 #Function to control entire game loop for a single round
 def gameloop(word_len, word_list, cheats):
 
